@@ -30,10 +30,17 @@ clients:
       rotation_type: non-rotating
     sso_disabled: false
   - name: chatbot-ui-app
+    allowed_clients: []
+    allowed_logout_urls:
+      - 'http://localhost:3000/'
+      - 'https://danimal141-chatbot-ui.vercel.app/'
     app_type: spa
     callbacks:
       - 'http://localhost:3000/'
       - 'http://localhost:3000/ja/'
+      - 'https://danimal141-chatbot-ui.vercel.app/'
+      - 'https://danimal141-chatbot-ui.vercel.app/ja/'
+    client_aliases: []
     cross_origin_auth: false
     custom_login_page_on: true
     grant_types:
@@ -46,6 +53,11 @@ clients:
       alg: RS256
       lifetime_in_seconds: 36000
       secret_encoded: false
+    native_social_login:
+      apple:
+        enabled: false
+      facebook:
+        enabled: false
     oidc_conformant: true
     refresh_token:
       expiration_type: expiring
@@ -57,6 +69,9 @@ clients:
       rotation_type: rotating
     sso_disabled: false
     token_endpoint_auth_method: none
+    web_origins:
+      - 'http://localhost:3000/'
+      - 'https://danimal141-chatbot-ui.vercel.app/'
   - name: deploy
     app_type: non_interactive
     cross_origin_auth: false
@@ -92,16 +107,51 @@ databases:
       mfa:
         active: true
         return_enroll_settings: true
-      passwordPolicy: good
+      import_mode: false
+      customScripts:
+        change_password: ./databases/Username-Password-Authentication/change_password.js
+        create: ./databases/Username-Password-Authentication/create.js
+        delete: ./databases/Username-Password-Authentication/delete.js
+        get_user: ./databases/Username-Password-Authentication/get_user.js
+        login: ./databases/Username-Password-Authentication/login.js
+        verify: ./databases/Username-Password-Authentication/verify.js
+      disable_signup: true
+      passwordPolicy: low
+      password_history:
+        size: 5
+        enable: false
       strategy_version: 2
+      password_dictionary:
+        enable: false
+        dictionary: []
       brute_force_protection: true
+      password_no_personal_info:
+        enable: false
+      password_complexity_options:
+        min_length: 8
+      enabledDatabaseCustomization: false
     realms:
       - Username-Password-Authentication
 connections:
+  - name: email
+    strategy: email
+    enabled_clients: []
+    is_domain_connection: false
+    options:
+      name: email
+      totp:
+        length: 6
+        time_step: 180
+      email:
+        body: ./email.html
+        from: '{{ application.name }} <root@auth0.com>'
+        syntax: liquid
+        subject: 'Welcome to {{ application.name }}'
+      disable_signup: true
+      brute_force_protection: true
   - name: google-oauth2
     strategy: google-oauth2
     enabled_clients:
-      - chatbot-ui-app
       - Default App
       - deploy
     is_domain_connection: false
@@ -115,38 +165,41 @@ tenant:
   enabled_locales:
     - en
   flags:
+    new_universal_login_experience_enabled: true
     universal_login: true
     revoke_refresh_token_grant: false
     dashboard_new_onboarding: false
     disable_clickjack_protection_headers: false
+  idle_session_lifetime: 72
+  session_lifetime: 168
 emailProvider: {}
 emailTemplates: []
 clientGrants: []
-#  guardianFactors:
-#   - name: duo
-#     enabled: false
-#   - name: email
-#     enabled: false
-#   - name: otp
-#     enabled: false
-#   - name: push-notification
-#     enabled: false
-#   - name: recovery-code
-#     enabled: false
-#   - name: sms
-#     enabled: false
-#   - name: webauthn-platform
-#     enabled: false
-#   - name: webauthn-roaming
-#     enabled: false
-# guardianFactorProviders: []
-# guardianFactorTemplates: []
-# guardianPolicies:
-#   policies: []
-# guardianPhoneFactorSelectedProvider:
-#   provider: auth0
-# guardianPhoneFactorMessageTypes:
-#   message_types: []
+  # guardianFactors:
+  #   - name: duo
+  #     enabled: false
+  #   - name: email
+  #     enabled: false
+  #   - name: otp
+  #     enabled: false
+  #   - name: push-notification
+  #     enabled: false
+  #   - name: recovery-code
+  #     enabled: false
+  #   - name: sms
+  #     enabled: false
+  #   - name: webauthn-platform
+  #     enabled: false
+  #   - name: webauthn-roaming
+  #     enabled: false
+  # guardianFactorProviders: []
+  # guardianFactorTemplates: []
+  # guardianPolicies:
+  #   policies: []
+  # guardianPhoneFactorSelectedProvider:
+  #   provider: auth0
+  # guardianPhoneFactorMessageTypes:
+  #   message_types: []
 roles: []
 branding: {}
 prompts:
