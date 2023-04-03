@@ -9,10 +9,6 @@ import Router from 'next/router';
 const inter = Inter({ subsets: ['latin'] });
 
 function App({ Component, pageProps }: AppProps<{}>) {
-  // const history = createBrowserHistory();
-  // const onRedirectCallback = (appState?: AppState) => {
-  //   history.push(appState?.returnTo || window.location.pathname);
-  // };
   const onRedirectCallback = (appState?: AppState) => {
     // Use Next.js's Router.replace method to replace the url
     Router.replace(appState?.returnTo || '/');
