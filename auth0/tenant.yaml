@@ -31,6 +31,9 @@ clients:
     sso_disabled: false
   - name: chatbot-ui-app
     app_type: spa
+    callbacks:
+      - 'http://localhost:3000/'
+      - 'http://localhost:3000/ja/'
     cross_origin_auth: false
     custom_login_page_on: true
     grant_types:

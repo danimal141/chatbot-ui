@@ -35,6 +35,7 @@ import Head from 'next/head';
 import { useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import toast from 'react-hot-toast';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface HomeProps {
   serverSideApiKeyIsSet: boolean;
@@ -530,6 +531,9 @@ const Home: React.FC<HomeProps> = ({
     savePrompts(updatedPrompts);
   };
 
+  // Auth  --------------------------------------------
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
+
   // EFFECTS  --------------------------------------------
 
   useEffect(() => {
@@ -632,7 +636,7 @@ const Home: React.FC<HomeProps> = ({
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {selectedConversation && (
+      {isAuthenticated && selectedConversation && (
         <main
           className={`flex h-screen w-screen flex-col text-sm text-white dark:text-white ${lightMode}`}
         >
@@ -738,6 +742,11 @@ const Home: React.FC<HomeProps> = ({
             )}
           </div>
         </main>
+      )}
+      {!isAuthenticated && (
+        <div className='flex justify-center h-screen w-screen items-center'>
+          <button type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={() => loginWithRedirect()}>Login</button>
+        </div>
       )}
     </>
   );

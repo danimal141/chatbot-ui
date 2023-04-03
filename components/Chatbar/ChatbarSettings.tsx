@@ -6,6 +6,7 @@ import { Import } from '../Settings/Import';
 import { Key } from '../Settings/Key';
 import { SidebarButton } from '../Sidebar/SidebarButton';
 import { ClearConversations } from './ClearConversations';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface Props {
   lightMode: 'light' | 'dark';
@@ -29,6 +30,8 @@ export const ChatbarSettings: FC<Props> = ({
   onImportConversations,
 }) => {
   const { t } = useTranslation('sidebar');
+  const { logout } = useAuth0();
+
   return (
     <div className="flex flex-col items-center space-y-1 border-t border-white/20 pt-1 text-sm">
       {conversationsCount > 0 ? (
@@ -51,6 +54,12 @@ export const ChatbarSettings: FC<Props> = ({
         onClick={() =>
           onToggleLightMode(lightMode === 'light' ? 'dark' : 'light')
         }
+      />
+
+      <SidebarButton
+        text="Logout"
+        icon={<IconFileExport size={18} />}
+        onClick={() => logout()}
       />
 
       <Key apiKey={apiKey} onApiKeyChange={onApiKeyChange} />
