@@ -496,8 +496,6 @@ const Home: React.FC<HomeProps> = ({
   // PROMPT OPERATIONS --------------------------------------------
 
   const handleCreatePrompt = () => {
-    const lastPrompt = prompts[prompts.length - 1];
-
     const newPrompt: Prompt = {
       id: uuidv4(),
       name: `Prompt ${prompts.length + 1}`,
