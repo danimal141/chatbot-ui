@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "devDependencies": {
+    "auth0-deploy-cli": "^7.17.1"
+  },
+  "scripts": {
+    "deploy": "node deploy.js tenant.yaml",
+    "export": "a0deploy export"
+  }
+}
