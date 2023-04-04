@@ -1,5 +1,5 @@
 import { SupportedExportFormats } from '@/types/export';
-import { IconFileExport, IconMoon, IconSun } from '@tabler/icons-react';
+import { IconFileExport, IconMoon, IconSun, IconUser, IconLogout } from '@tabler/icons-react';
 import { useTranslation } from 'next-i18next';
 import { FC } from 'react';
 import { Import } from '../Settings/Import';
@@ -30,10 +30,17 @@ export const ChatbarSettings: FC<Props> = ({
   onImportConversations,
 }) => {
   const { t } = useTranslation('sidebar');
-  const { logout } = useAuth0();
+  const { logout, user } = useAuth0();
 
   return (
     <div className="flex flex-col items-center space-y-1 border-t border-white/20 pt-1 text-sm">
+      {user && (
+      <SidebarButton
+        text={user.nickname || user.name || 'Anonymus'}
+        icon={<IconUser size={18} />}
+        onClick={() => void(0)}
+      />
+      )}
       {conversationsCount > 0 ? (
         <ClearConversations onClearConversations={onClearConversations} />
       ) : null}
@@ -58,7 +65,7 @@ export const ChatbarSettings: FC<Props> = ({
 
       <SidebarButton
         text="Logout"
-        icon={<IconFileExport size={18} />}
+        icon={<IconLogout size={18} />}
         onClick={() => logout()}
       />
 
