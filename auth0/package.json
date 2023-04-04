@@ -4,7 +4,7 @@
     "auth0-deploy-cli": "^7.17.1"
   },
   "scripts": {
-    "deploy": "node deploy.js tenant.yaml",
-    "export": "a0deploy export"
+    "a0deploy": "npx a0deploy deploy -c config.json -i tenant.yaml",
+    "export": "npx a0deploy export"
   }
 }

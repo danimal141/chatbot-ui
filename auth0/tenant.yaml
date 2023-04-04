@@ -32,14 +32,14 @@ clients:
   - name: chatbot-ui-app
     allowed_clients: []
     allowed_logout_urls:
-      - 'http://localhost:3000/'
       - 'https://danimal141-chatbot-ui.vercel.app/'
+      - 'http://localhost:3000/'
     app_type: spa
     callbacks:
-      - 'http://localhost:3000/'
-      - 'http://localhost:3000/ja/'
       - 'https://danimal141-chatbot-ui.vercel.app/'
       - 'https://danimal141-chatbot-ui.vercel.app/ja/'
+      - 'http://localhost:3000/'
+      - 'http://localhost:3000/ja/'
     client_aliases: []
     cross_origin_auth: false
     custom_login_page_on: true
@@ -70,8 +70,8 @@ clients:
     sso_disabled: false
     token_endpoint_auth_method: none
     web_origins:
-      - 'http://localhost:3000/'
       - 'https://danimal141-chatbot-ui.vercel.app/'
+      - 'http://localhost:3000/'
   - name: deploy
     app_type: non_interactive
     cross_origin_auth: false
@@ -133,22 +133,6 @@ databases:
     realms:
       - Username-Password-Authentication
 connections:
-  - name: email
-    strategy: email
-    enabled_clients: []
-    is_domain_connection: false
-    options:
-      name: email
-      totp:
-        length: 6
-        time_step: 180
-      email:
-        body: ./email.html
-        from: '{{ application.name }} <root@auth0.com>'
-        syntax: liquid
-        subject: 'Welcome to {{ application.name }}'
-      disable_signup: true
-      brute_force_protection: true
   - name: google-oauth2
     strategy: google-oauth2
     enabled_clients:
@@ -175,31 +159,6 @@ tenant:
 emailProvider: {}
 emailTemplates: []
 clientGrants: []
-  # guardianFactors:
-  #   - name: duo
-  #     enabled: false
-  #   - name: email
-  #     enabled: false
-  #   - name: otp
-  #     enabled: false
-  #   - name: push-notification
-  #     enabled: false
-  #   - name: recovery-code
-  #     enabled: false
-  #   - name: sms
-  #     enabled: false
-  #   - name: webauthn-platform
-  #     enabled: false
-  #   - name: webauthn-roaming
-  #     enabled: false
-  # guardianFactorProviders: []
-  # guardianFactorTemplates: []
-  # guardianPolicies:
-  #   policies: []
-  # guardianPhoneFactorSelectedProvider:
-  #   provider: auth0
-  # guardianPhoneFactorMessageTypes:
-  #   message_types: []
 roles: []
 branding: {}
 prompts:
